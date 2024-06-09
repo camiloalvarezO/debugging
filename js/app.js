@@ -1,3 +1,4 @@
+// usar snyk.io para detectar vulnerabilidades
 const criptomonedasSelect = document.querySelector('#criptomonedas');
 const monedaSelect = document.querySelector('#moneda');
 const formulario = document.querySelector('#formulario');
@@ -37,15 +38,27 @@ function consultarCriptomonedas() {
 // llena el select 
 function selectCriptomonedas(criptomonedas) {
 
-    criptomonedas.forEach( cripto => {
-        const { FullName, Name } = cripto.CoinInfo;
+    let inicio = performance.now();
+    // criptomonedas.forEach( cripto => {
+    //     const { FullName, Name } = cripto.CoinInfo;
+    //     const option = document.createElement('option');
+    //     option.value = Name;
+    //     option.textContent = FullName;
+    //     // insertar el HTML
+    //     criptomonedasSelect.appendChild(option);
+    // });
+
+    for (let i = 0; i < criptomonedas.length; i++) {
+        const { FullName, Name } = criptomonedas[i].CoinInfo;
         const option = document.createElement('option');
         option.value = Name;
         option.textContent = FullName;
         // insertar el HTML
         criptomonedasSelect.appendChild(option);
-    });
+    }
+    let final = performance.now();
 
+    console.log(final - inicio);
 }
 
 
@@ -88,6 +101,7 @@ function mostrarAlerta(mensaje) {
 
 
 function consultarAPI() {
+    let inicio = performance.now();
 
     const { moneda, criptomoneda} = objBusqueda;
 
@@ -100,7 +114,9 @@ function consultarAPI() {
         .then(cotizacion => {
             mostrarCotizacionHTML(cotizacion.DISPLAY[criptomoneda][moneda]);
         });
-
+        
+        let final = performance.now();
+        console.log(final - inicio);
 }
 
 function mostrarCotizacionHTML(cotizacion) {
